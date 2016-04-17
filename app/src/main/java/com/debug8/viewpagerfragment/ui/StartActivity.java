@@ -1,4 +1,4 @@
-package com.debug8.viewpagerfragment;
+package com.debug8.viewpagerfragment.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,9 @@ import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
+import com.debug8.viewpagerfragment.MainActivity;
+import com.debug8.viewpagerfragment.R;
+
 public class StartActivity extends Activity {
 
     @Override
@@ -15,7 +18,7 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        final View view = View.inflate(this,R.layout.activity_start,null);
+        final View view = View.inflate(this, R.layout.activity_start,null);
 
         setContentView(view);
 

@@ -1,5 +1,6 @@
 package com.debug8.viewpagerfragment;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,13 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.debug8.viewpagerfragment.ui.FifthFragment;
+import com.debug8.viewpagerfragment.ui.FirstFragment;
+import com.debug8.viewpagerfragment.ui.FourthFragment;
+import com.debug8.viewpagerfragment.ui.SecondFragment;
+import com.debug8.viewpagerfragment.ui.SixthFragment;
+import com.debug8.viewpagerfragment.ui.ThirdFragment;
+
 import java.util.ArrayList;
 
 public class MainActivity extends FragmentActivity {
@@ -19,6 +27,8 @@ public class MainActivity extends FragmentActivity {
     private ArrayList<Fragment> fragmentList;
     private TextView[] textViews = new TextView[6];
     private Fragment[] fragments = new Fragment[6];
+
+    private ProgressDialog progressDialog;
 
 
     @Override
@@ -30,8 +40,6 @@ public class MainActivity extends FragmentActivity {
         initTextView();
         initViewPager();
     }
-
-
 
     private void initTextView(){
         textViews[0] = (TextView) findViewById(R.id.textView1);
@@ -46,6 +54,7 @@ public class MainActivity extends FragmentActivity {
 
     }
 
+    //设置TextView点击事件，重写监听事件
     public class TextViewListener implements  View.OnClickListener{
         private int index = 0;
 
@@ -57,7 +66,6 @@ public class MainActivity extends FragmentActivity {
         public void onClick(View v) {
             viewPager.setCurrentItem(index);
             textViewChangeTextColor(index);
-
         }
     }
 
@@ -65,11 +73,11 @@ public class MainActivity extends FragmentActivity {
         viewPager = (ViewPager)findViewById(R.id.viewpager);
 
         fragments[0] = new FirstFragment();
-        fragments[1] = new FirstFragment();
-        fragments[2] = new SecondFragment();
-        fragments[3] = new ThirdFragment();
-        fragments[4] = new FourthFragment();
-        fragments[5] = new FifthFragment();
+        fragments[1] = new SecondFragment();
+        fragments[2] = new ThirdFragment();
+        fragments[3] = new FourthFragment();
+        fragments[4] = new FifthFragment();
+        fragments[5] = new SixthFragment();
 
 
         fragmentList = new ArrayList<Fragment>();
@@ -108,8 +116,6 @@ public class MainActivity extends FragmentActivity {
         @Override
         public void onPageSelected(int position) {
             textViewChangeTextColor(position);
-
-
         }
 
         @Override
@@ -123,11 +129,34 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    //TextViem变更颜色，当前页面为红色，其余为蓝色
     private void textViewChangeTextColor(int index){
         for(TextView tv : textViews){
             tv.setTextColor(Color.BLUE);
         }
         textViews[index].setTextColor(Color.RED);
-
     }
+
+    private void update(int index){
+        Bundle arg = new Bundle();
+        arg.putString("info","update");
+        fragments[index].setArguments(arg);
+    }
+
+    protected void showProgressDialog(){
+        if(progressDialog == null){
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("正在加载...");
+            progressDialog.setCanceledOnTouchOutside(false);
+        }
+        progressDialog.show();
+    }
+
+    protected void closeProgressDialog(){
+        if(progressDialog != null){
+            progressDialog.dismiss();
+        }
+    }
+
+
 }
